@@ -12,7 +12,12 @@ const postSchema = new mongoose.Schema({
         fileName : String ,
         contentType : String,
         data : Buffer
-    }
+    },
+    tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PostTag'
+      }]
+      
 });
 
 module.exports  =  mongoose.model('Post' , postSchema);
