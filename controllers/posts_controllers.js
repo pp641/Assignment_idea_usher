@@ -5,7 +5,6 @@ const createPosts = async (req, res) => {
   try {
     const { title, description, tags } = req.body;
     const file = req.file;
-    console.log("oko", req.body)
 
     const image = {
       fileName: file?.originalname,
@@ -13,10 +12,10 @@ const createPosts = async (req, res) => {
       data: file?.buffer,
     };
     const newPost = new postSchema({ title, description, image });
+    console.log("oookd" , JSON.parse(req.body.tags)[1] );
     const postTags = await Promise.all(
-      req.body.tags.map(async (tagName) => {
+      JSON.parse(tags).map(async (tagName) => {
         const tag = await TagsSchema.findOne({ tag: tagName });
-        console.log("tag is there", tag)
         if (!tag) {
           const newTag = new TagsSchema({ tag: tagName });
           await newTag.save();

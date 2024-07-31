@@ -1,4 +1,5 @@
 const express =  require('express');
+const cors = require('cors')
 const mongoose = require('mongoose')
 const multer = require('multer')
 const router = require('express').Router();
@@ -7,7 +8,7 @@ const cloudinary = require('cloudinary');
 const { connectToDB } = require('./config/database_config');
 const dbConnection = require('./config/database_config').connectToDB
 const app = express();
-
+app.use(cors())
 app.use(express.json());
 
  connectToDB().then((result )=>{
