@@ -1,5 +1,5 @@
 const express =  require('express');
-const dotenv = require("dotenv").config()
+require("dotenv").config()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const multer = require('multer')
@@ -12,17 +12,15 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
- connectToDB().then((result )=>{
+connectToDB().then((result )=>{
     console.log("result ", result)
 }).catch((error)=>{
     console.log("Error", error)
 })
 
-app.use(appRoutes)
 
-app.get("/",()=>{
-    console.log("connected")
-})
+app.use("/api" , appRoutes)
+
 
 
 app.listen(process.env.PORT || 8000 , ()=>{

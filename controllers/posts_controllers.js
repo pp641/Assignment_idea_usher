@@ -1,29 +1,24 @@
 const postSchema = require("../schemas/posts");
 const TagsSchema = require("../schemas/tags");
 const PostTagSchema = require("../schemas/postTag");
+const { PostImageAssociation } = require("../utils/postImageAssociation");
+
 const createPosts = async (req, res) => {
   try {
     const { title, description, tags } = req.body;
     const file = req.file;
-
-    const image = {
-      fileName: file?.originalname,
-      contentType: file?.mimetype,
-      data: file?.buffer,
-    };
+    console.log("req.file" , req.file)
+    const image =
+      req.file === undefined
+        ? {}
+        : {
+            fileName: Date.now() + "-" + file?.originalname,
+            contentType: file?.mimetype,
+            data: file?.buffer,
+          };
+    console.log("okmko", image)
     const newPost = new postSchema({ title, description, image });
-    console.log("oookd" , JSON.parse(req.body.tags)[1] );
-    const postTags = await Promise.all(
-      JSON.parse(tags).map(async (tagName) => {
-        const tag = await TagsSchema.findOne({ tag: tagName });
-        if (!tag) {
-          const newTag = new TagsSchema({ tag: tagName });
-          await newTag.save();
-          return new PostTagSchema({ post: newPost._id, tag: newTag._id });
-        }
-        return new PostTagSchema({ post: newPost._id, tag: tag._id });
-      })
-    );
+    const postTags = await PostImageAssociation(tags,newPost) // function for post_image association
     newPost.tags = postTags
     await newPost.save();
     console.log("okdo", postTags)
@@ -34,6 +29,7 @@ const createPosts = async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 };
+
 
 
 
@@ -86,7 +82,6 @@ const getAllPosts = async (req, res) => {
         const postIds = await PostTagSchema.find({ tag: tagDoc._id }).distinct(
           "post"
         );
-        console.log("okfind", postIds)
         posts = await postSchema
           .find({ _id: { $in: postIds } })
           .sort(sortObj)
