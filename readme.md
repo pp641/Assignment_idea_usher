@@ -1,5 +1,5 @@
 App Directory Structure:
-    ---index.js => main file which will run the node app
+
     schema => This Contains the list of all the schemas in the app
            => 1. Post Schema which has post details and Post Image Object
            => 2. Tags Schema which has tag details.
@@ -12,20 +12,13 @@ App Directory Structure:
     routes => This directory contains the routes for the app.
                 => 1. Endpoints
                     1.1    POST => /api/createPost
-                    1.2    POST => /api/createTag 
-                    1.3    GET  => /api/getAllPosts   
+                    1.2    POST => /api/createTag
+                    1.3    GET  => /api/getAllPosts
      utils => This directory contains the common utility functions in the app which will modularize the function and make the controller's code neat and clean.
                 => PostImageAssociation.js ( It contains the post image association function  )
-                        
+
     config => This directory contains the configuration files for database , multer etc.
 
+    validations => This direcory contains the validation logics for post creation.
+
     .env   => Enviornment variable to store the production db url or other secret keys
-
-
-
-
-
-
-
-
-

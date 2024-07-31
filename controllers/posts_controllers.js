@@ -8,7 +8,7 @@ const createPosts = async (req, res) => {
   try {
     const { title, description, tags } = req.body;
     if(postInputValidation(req.body).length){
-      res.status(401).json({error :  postInputValidation(req.body) })
+       res.status(200).json({error :  postInputValidation(req.body) })
     } 
     const file = req.file;
     console.log("req.file" , req.file)
@@ -25,7 +25,6 @@ const createPosts = async (req, res) => {
     const postTags = await PostImageAssociation(tags,newPost) // function for post_image association
     newPost.tags = postTags
     await newPost.save();
-    console.log("okdo", postTags)
     await PostTagSchema.bulkSave(postTags);
     res.status(201).json(newPost);
   } catch (error) {

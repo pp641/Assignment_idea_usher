@@ -2,11 +2,12 @@
 const mongoose =  require('mongoose');
 const postSchema = new mongoose.Schema({
     title : {
-        type : String
-        
+        type : String,
+        required: [true , 'Title is Required']
     },
     description : {
-        type: String
+        type: String,
+        required: [true , 'Description is Required']
     },
     image  : {
         fileName : String ,
