@@ -2,10 +2,14 @@ const postSchema = require("../schemas/posts");
 const TagsSchema = require("../schemas/tags");
 const PostTagSchema = require("../schemas/postTag");
 const { PostImageAssociation } = require("../utils/postImageAssociation");
+const { postInputValidation } = require("../validations/postValidations");
 
 const createPosts = async (req, res) => {
   try {
     const { title, description, tags } = req.body;
+    if(postInputValidation(req.body).length){
+      res.status(401).json({error :  postInputValidation(req.body) })
+    } 
     const file = req.file;
     console.log("req.file" , req.file)
     const image =
